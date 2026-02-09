@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hola-react
+  namespace: app1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hola-react
+  template:
+    metadata:
+      labels:
+        app: hola-react
+    spec:
+      containers:
+      - name: react
+        image: scl.ocir.io/axf1jeltkzvo/hola_react:latest
+        ports:
+        - containerPort: 80
