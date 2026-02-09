@@ -15,7 +15,7 @@ function App() {
   return (
     <div style={{ textAlign: "center", marginTop: "40px" }}>
       <h1>Hola React</h1>
-      <h2>Desde OKE</h2>
+      <h2>Felipe Basso, eres el mejor CXM de todos :D</h2>
     </div>
   );
 }
