@@ -1,3 +1,32 @@
+### Requerimientos:
+- Cuenta de Oracle Cloud Infrastructure(test gratuito https://www.oracle.com/cloud/free/)
+- Cuenta de Github (https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home)
+
+### ¿Qué vamos a hacer?
+
+- Creación Compartment, VCN y cluster OKE
+- Creación Registry
+- Build y commit de imagen contenedor
+- Deploy Ingress Controller
+- Deploy de aplicación, servicios e ingress
+- Configuración Obervability
+- Consideraciones/Recomendaciones
+
+### Paso a Paso
+0. Crear Compartment
+	Menu -> Identity & Security -> Compartmente -> New Compartment
+	```
+	CAMPO				VALOR
+	==============================================
+	Name		 		        fbasso     (Primera leta nombre y apellido)
+	Description 			  fbasso
+	Parent Compartment 	XXXX (root)
+	```
+ 	<img width="1343" height="587" alt="image" src="https://github.com/user-attachments/assets/f5b6c907-7ffa-40db-8187-18602aaaba7c" />
+
+	<img width="1331" height="521" alt="image" src="https://github.com/user-attachments/assets/8d92b4c6-d181-4448-9bca-0c61ded12ae8" />
+
+-------
 # Creación de proyecto
 
 ```
@@ -33,33 +62,7 @@ export default App;
 
 SOLO el archivo Dockerfile debe quedar dentro de la carpeta "hola-react"
 
-### Requerimientos:
-- Cuenta de Oracle Cloud Infrastructure(test gratuito https://www.oracle.com/cloud/free/)
-- Cuenta de Github (https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home)
-
-### ¿Qué vamos a hacer?
-
-- Creación Compartment, VCN y cluster OKE
-- Creación Registry
-- Build y commit de imagen contenedor
-- Deploy Ingress Controller
-- Deploy de aplicación, servicios e ingress
-- Configuración Obervability
-- Consideraciones/Recomendaciones
-
-### Paso a Paso
-0. Crear Compartment
-	Menu -> Identity & Security -> Compartmente -> New Compartment
-	```
-	CAMPO				VALOR
-	==============================================
-	Name		 		        fbasso     (Primera leta nombre y apellido)
-	Description 			  fbasso
-	Parent Compartment 	XXXX (root)
-	```
- 	<img width="1343" height="587" alt="image" src="https://github.com/user-attachments/assets/f5b6c907-7ffa-40db-8187-18602aaaba7c" />
-
-	<img width="1331" height="521" alt="image" src="https://github.com/user-attachments/assets/8d92b4c6-d181-4448-9bca-0c61ded12ae8" />
+--------
 
 
 1. Crear cluster OKE, dentro del compartment OKE y **nombrarlo cluster1**
