@@ -2,12 +2,20 @@
 
 ```
 npx create-react-app hola-react
-cd hola-react
-npm start
+```
+Dar "y" o Enter
+
+```
+felipe_bas@cloudshell:~ (sa-santiago-1)$ npx create-react-app hola-react
+⠴
+Need to install the following packages:
+create-react-app@5.1.0
+Ok to proceed? (y) 
 ```
 
-Modificar el archivo src/App.js y dejar este contenido
+Una vez creado el proyecto, modificar el archivo src/App.js y dejar este contenido
 ```
+cd hola-react
 import logo from './logo.svg';
 import './App.css';
 
@@ -22,3 +30,6 @@ function App() {
 
 export default App;
 ```
+
+SOLO el archivo Dockerfile debe quedar dentro de la carpeta "hola-react"
+
