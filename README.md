@@ -27,7 +27,7 @@
 	<img width="1331" height="521" alt="image" src="https://github.com/user-attachments/assets/8d92b4c6-d181-4448-9bca-0c61ded12ae8" />
 
 -------
-# Creación de proyecto
+# Creación de proyecto React
 
 ```
 npx create-react-app hola-react
@@ -64,6 +64,7 @@ SOLO el archivo Dockerfile debe quedar dentro de la carpeta "hola-react"
 
 --------
 
+# OKE
 
 1. Crear cluster OKE, dentro del compartment OKE y **nombrarlo cluster1**
 	Menu -> Developer Services -> Kubernetes Clusters (OKE)
@@ -123,7 +124,7 @@ SOLO el archivo Dockerfile debe quedar dentro de la carpeta "hola-react"
 	```
 	podman build --tag fbasso-app1:latest -f Dockerfile
  	```
-	Seleccionar la imagen docker.io/library/nginx:1.10.1-alpine
+	Seleccionar la imagen docker.io/library/nginx:alpine
 	<img width="1359" height="600" alt="image" src="https://github.com/user-attachments/assets/68ba4f30-4e9c-4783-af94-fa3b0dcea437" />
 
 	Una vez creada la imagen validarla con el comando
@@ -134,9 +135,11 @@ SOLO el archivo Dockerfile debe quedar dentro de la carpeta "hola-react"
 	Esto mostrará las 2 impagenes que tenemos, la de la palicaicón recién creada y la de nginx
 	```
 	felipe_bas@cloudshell:Docker (us-ashburn-1)$ podman images
-	REPOSITORY               TAG            IMAGE ID      CREATED        SIZE
-	localhost/fbasso-app1    latest         8e35357216b3  3 minutes ago  55.7 MB
-	docker.io/library/nginx  1.10.1-alpine  2cd900f340dd  8 years ago    55.7 MB
+	REPOSITORY               TAG         IMAGE ID      CREATED             SIZE
+    localhost/fbasso-app1    latest      2031abba74d9  46 seconds ago      64.7 MB
+    <none>                   <none>      4cc694a66b3c  About a minute ago  715 MB
+    docker.io/library/nginx  alpine      b76de378d572  4 days ago          63.5 MB
+    docker.io/library/node   18-alpine   ee77c6cd7c18  10 months ago       129 MB
 	```
 
 	Cuando la imagen ya se encuentre creada, es necesario asignar tag, para esto, debemos conocer el namespace de nuestro registry, el cual aparece dentro del mismo registry
@@ -144,15 +147,17 @@ SOLO el archivo Dockerfile debe quedar dentro de la carpeta "hola-react"
 
  	Con esta informaicón definimos el tag en la imagen recién creada
 	```
-	podman tag localhost/fbasso-app1:latest scl.ocir.io/axse6s5ncehl/fbasso-app1:latest
+	podman tag localhost/fbasso-app1:latest scl.ocir.io/axf1jeltkzvo/fbasso-app1:latest
 	```
  	Volvemos a listar nuestras imágenes y debemos ver la que creamos recién:
  	```
  	felipe_bas@cloudshell:Docker (us-ashburn-1)$ podman images
-	REPOSITORY                            TAG            IMAGE ID      CREATED        SIZE
-	iad.ocir.io/axse6s5ncehl/fbasso-app1  latest         8e35357216b3  8 minutes ago  55.7 MB
-	localhost/fbasso-app1                 latest         8e35357216b3  8 minutes ago  55.7 MB
-	docker.io/library/nginx               1.10.1-alpine  2cd900f340dd  8 years ago    55.7 MB
+	REPOSITORY                           TAG         IMAGE ID      CREATED         SIZE
+	scl.ocir.io/axf1jeltkzvo/hola_react  latest      2031abba74d9  10 minutes ago  64.7 MB
+	localhost/fbasso-app1                latest      2031abba74d9  10 minutes ago  64.7 MB
+	<none>                               <none>      4cc694a66b3c  11 minutes ago  715 MB
+	docker.io/library/nginx              alpine      b76de378d572  4 days ago      63.5 MB
+	docker.io/library/node               18-alpine   ee77c6cd7c18  10 months ago   129 MB
 	```
 
 	Para poder acceder al registry debemos crear un token de autenticación dentro de la cuenta de usario ir a User Settings
@@ -164,12 +169,12 @@ SOLO el archivo Dockerfile debe quedar dentro de la carpeta "hola-react"
 
 	Una vez creado el token se debe realizar ogin dentro de registry
 	```
-	podman login -u 'axse6s5ncehl/felipe.basso@oracle.com' scl.ocir.io -p 'TQkZOT9UPXXXXXXX'
+	podman login -u 'axf1jeltkzvo/felipe.basso@oracle.com' scl.ocir.io -p 'TQkZOT9UPXXXXXXX'
  	```
 
  	Cuando nos encontremos logeados en el registry realizar el push de la imagen:
 	```
-	podman push scl.ocir.io/axse6s5ncehl/fbasso-app1:latest
+	podman push scl.ocir.io/axf1jeltkzvo/fbasso-app1:latest
 	```
  	<img width="846" height="221" alt="image" src="https://github.com/user-attachments/assets/ae22e3c2-ca90-490a-890a-9e44e376be4e" />
 
@@ -179,106 +184,54 @@ SOLO el archivo Dockerfile debe quedar dentro de la carpeta "hola-react"
 	```
 	cd ../yaml/
  	```
- 	Y editar la línea 22 del deployment con vi:
+ 	Y editar la línea 18 del deployment con vi:
 	```
 	vi dp1.yaml
  	```
-	<img width="1354" height="495" alt="image" src="https://github.com/user-attachments/assets/84976899-df37-4d90-9d9e-f766b2bc57c5" />
+	<img width="554" height="359" alt="image" src="https://github.com/user-attachments/assets/73763b94-08fe-4cbd-8a45-277d51b6a834" />
+
 	
 	Cambiar por la url del registry, en mi caso es:
  	```
-	scl.ocir.io/axse6s5ncehl/fbasso-app1:latest
+	scl.ocir.io/axf1jeltkzvo/fbasso-app1:latest
   	```
 
-  	Crear namespace apellido-ns-app1
+  	Crear namespace app1
 	```
  	EJEMPLO:
- 	kubectl create ns basso-ns-app1
+ 	kubectl create ns app1
  	```
 
  	y crear deployment en ns recién creado con el comando:
 	```
-	kubectl apply -f dp1.yaml -n basso-ns-app1
+	kubectl apply -f dp.yaml -n app1
 	```
 
  	Una vez creado, crear el servicio con el comando:
 	```
-	kubectl apply -f svc1.yaml -n basso-ns-app1
- 	```
-
- 	Finalmente, crear el servicio ingress, con el comando:
-	```
-	kubectl apply -f ing1.yaml -n basso-ns-app1
+	kubectl apply -f lb.yaml -n app1
  	```
 
  	Una vez creados todos los componentes, validar con los comandos:
 	```
-	kubectl get all -n basso-ns-app1
- 	kubectl get services -n basso-ns-app1
- 	kubectl get ingress -n basso-ns-app1
+	kubectl get all -n app1
+ 	kubectl get services -n app1
  	```
+ 
 	Debemos obtener un resultado similar a este:
 	<img width="1362" height="507" alt="image" src="https://github.com/user-attachments/assets/3430a7af-5ae0-495e-84c5-6f24ce4d70a3" />
  
 8. Una vez validada la creación de los 3 componentes, entrar desde el navigador web a la ip pública del servicio apuntando a la app1, como ejemplo:
 	```
-	felipe_bas@cloudshell:~ (us-ashburn-1)$ kubectl get service -n ingress-nginx
-	NAME                                 TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                      AGE
-	ingress-nginx-controller             LoadBalancer   10.96.105.210   129.153.239.239   80:31526/TCP,443:31271/TCP   11d
-	ingress-nginx-controller-admission   ClusterIP      10.96.86.38     <none>            443/TCP                      11d	
+	felipe_bas@cloudshell:~ (us-ashburn-1)$ kubectl get service -n app1
+	NAME             TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
+	hola-react-svc   LoadBalancer   10.96.66.1   159.112.150.14   80:31493/TCP   18s
 	```
- 	<img width="939" height="388" alt="image" src="https://github.com/user-attachments/assets/3e03b248-e219-4d2b-ba26-cabef43a368e" />
 
-	En este ejemplo debemos ingresar a http://129.153.239.239/app1, en el caso de cada uno, se debe cambiar la ip pública
+	<img width="1484" height="442" alt="image" src="https://github.com/user-attachments/assets/ee723a1d-9a76-42ba-bd2b-474709fa0079" />
+
+	En este ejemplo debemos ingresar a http://159.112.150.14, en el caso de cada uno, se debe cambiar la ip pública
  
-9. Una vez creado el servicio, debemos crear un nuevo registry
-    ```
-	Developer Services > Container Registry
-	Access: Public
-    Nombre: primera legtra de nombre-app2
-    Click en Create
-    ```
-	<img width="950" height="383" alt="image" src="https://github.com/user-attachments/assets/edd1f3c4-dd83-46fb-b308-8757db8a2c01" />
-
-12. Para validar el funcionamiento del ingress controller, realizar los mismos pasos anteriores, pero descargando el siguiente git:
-	```
-	git clone https://github.com/whiplash0104/ingress-app2.git
-
- 	cd ingress-app2/Docker/
- 	podman build --tag fbasso-app2:latest -f Dockerfile
- 	podman tag localhost/fbasso-app2:latest scl.ocir.io/axse6s5ncehl/fbasso-app2:latest
- 	podman push scl.ocir.io/axse6s5ncehl/fbasso-app2:latest
-	```
- 	<img width="956" height="410" alt="image" src="https://github.com/user-attachments/assets/95e052f5-8d61-4c99-8483-1d2c43fc73c2" />
-
-13. Dentro del directorio ingress-app2/yaml/ editar el archivo dp2.yaml, cambiando la url de la imagen por la recién creada
-	```
-	vi dp2.yaml
- 	scl.ocir.io/axse6s5ncehl/fbasso-app2:latest
- 	```
- 	<img width="958" height="404" alt="image" src="https://github.com/user-attachments/assets/a3e2aae5-1604-47ab-a34f-9ffc2dc80d54" />
-
-	Crear namespace basso-ns-app2
-	```
-	kubectl create ns basso-ns-app2
-	```
- 
- 	Luego crear el deployment, el servicio y el ingress controller
- 	```
-	kubectl apply -f dp2.yaml -n basso-ns-app2
-  	kubectl apply -f svc2.yaml -n basso-ns-app2
-  	kubectl apply -f ing2.yaml -n basso-ns-app2
- 	```
-
-	Validar que todo esté creado de forma correcta
-	```
-	kubectl get all -n basso-ns-app2
- 	kubectl get services -n basso-ns-app2
- 	kubectl get ingress -n basso-ns-app2
- 	```
- 	<img width="956" height="386" alt="image" src="https://github.com/user-attachments/assets/34750743-3c9e-4b3a-9e07-2c49dcd479bd" />
-
-	Para revisar si el ingress funciona de forma correcta entrar a la misma url anterior, pero cambiar pp1 por app2 http://129.153.239.239/app2
 
 
 ## Monitoreo
